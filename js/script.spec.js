@@ -101,6 +101,24 @@ window.defineTestSuite = () => {
                     expect(actual).to.match(pattern)
                   })
                 })
+
+                describe('the span', () => {
+                  const span = div.querySelector('span')
+
+                  it('must have the correct CSS class', () => {
+                    const expected = 'email'
+                    const actual = span.attributes.class.value
+
+                    expect(actual).to.equal(expected)
+                  })
+
+                  it('must have the student\'s email address', () => {
+                    const pattern = /^[a-z]+\.[a-z]+@example\.com$/
+                    const actual = span.textContent
+
+                    expect(actual).to.match(pattern)
+                  })
+                })
               })
 
               describe('the second DIV', () => {

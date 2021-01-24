@@ -16,7 +16,7 @@ for (let i = 0; i < 9; i++) {
   <div class="student-details">
     <img class="avatar" src="${data[i].picture.large}" alt="Profile Picture" />
     <h3>${data[i].name.title} ${data[i].name.first} ${data[i].name.last}</h3>
-    <span></span>
+    <span class="email">${data[i].email}</span>
   </div>
   <div></div>
 </li>`

@@ -90,6 +90,17 @@ window.defineTestSuite = () => {
                     expect(actual).to.equal(expected)
                   })
                 })
+
+                describe('the heading', () => {
+                  const h3 = div.querySelector('h3')
+
+                  it('must have a student\'s name', () => {
+                    const pattern = /^[A-Z]{1}[a-z]+( [A-Z]{1}[a-z]+){1,2}$/
+                    const actual = h3.textContent
+
+                    expect(actual).to.match(pattern)
+                  })
+                })
               })
 
               describe('the second DIV', () => {

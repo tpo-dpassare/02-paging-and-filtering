@@ -15,7 +15,7 @@ for (let i = 0; i < 9; i++) {
   const listItemHtml = `<li class="student-item cf">
   <div class="student-details">
     <img class="avatar" src="${data[i].picture.large}" alt="Profile Picture" />
-    <h3></h3>
+    <h3>${data[i].name.title} ${data[i].name.first} ${data[i].name.last}</h3>
     <span></span>
   </div>
   <div></div>

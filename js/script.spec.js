@@ -122,7 +122,39 @@ window.defineTestSuite = () => {
               })
 
               describe('the second DIV', () => {
+                const div = li.children[1]
 
+                it('must have a CLASS attribute with the expected value', () => {
+                  const expected = 'joined-details'
+                  const actual = div.attributes.class.value
+
+                  expect(actual).to.equal(expected)
+                })
+
+                it('must have the expected children elements', () => {
+                  const expected = ['SPAN']
+                  const actual = Array.from(div.children).map(elem => elem.tagName)
+
+                  expect(actual).to.have.members(expected)
+                })
+
+                describe('the span', () => {
+                  const span = div.querySelector('span')
+
+                  it('must have the correct CSS class', () => {
+                    const expected = 'date'
+                    const actual = span.attributes.class.value
+
+                    expect(actual).to.equal(expected)
+                  })
+
+                  it('must have the student\'s join date', () => {
+                    const pattern = /^Joined \d{2}-\d{2}-\d{4}$/
+                    const actual = span.textContent
+
+                    expect(actual).to.match(pattern)
+                  })
+                })
               })
             })
           })

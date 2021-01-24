@@ -18,7 +18,9 @@ for (let i = 0; i < 9; i++) {
     <h3>${data[i].name.title} ${data[i].name.first} ${data[i].name.last}</h3>
     <span class="email">${data[i].email}</span>
   </div>
-  <div></div>
+  <div class="joined-details">
+    <span class="date">Joined ${data[i].registered.date}</span>
+  </div>
 </li>`
 
   uiContainers.students.insertAdjacentHTML('beforeend', listItemHtml)

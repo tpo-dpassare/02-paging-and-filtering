@@ -75,6 +75,15 @@
       reporter: window.WebConsole,
       ui: 'bdd'
     })
+
+    window.uiContainers = Object.freeze({
+      students: document.querySelector('ul.student-list'),
+      pages: document.querySelector('ul.link-list')
+    })
+
+    window.uiOptions = Object.freeze({
+      pageSize: 9
+    })
   </script>
 
   <script src="js/data.js"></script> 

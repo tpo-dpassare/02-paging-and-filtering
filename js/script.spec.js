@@ -1,5 +1,4 @@
 /* eslint-env mocha */
-/* global */
 
 'use strict'
 
@@ -16,7 +15,7 @@ window.defineTestSuite = () => {
          * "student list" UL.
          * @type {HTMLCollection}
          */
-        const listItems = document.querySelector('ul.student-list').children
+        const listItems = window.uiContainers.students.children
 
         it('must have 9 entries', () => {
           const expected = 9
@@ -158,6 +157,41 @@ window.defineTestSuite = () => {
               })
             })
           })
+        })
+      })
+
+      describe('the page list', () => {
+        const listItems = window.uiContainers.pages.children
+
+        it('must have the expected number of items', () => {
+          const minimum = 5
+          const actual = listItems.length
+
+          expect(actual).to.be.at.least(minimum)
+        })
+
+        describe('the first item', () => {
+          const li = listItems[0]
+
+          it('must contain the expected HTML', () => {
+            const expected = '<button class="active">1</button>'
+            const actual = li.innerHTML
+
+            expect(actual).to.equal(expected)
+          })
+        })
+
+        describe('all other items', () => {
+          for (let i = 1; i < listItems.length; i++) {
+            const li = listItems[i]
+
+            it('must contain the expected HTML', () => {
+              const expected = `<button>${i + 1}</button>`
+              const actual = li.innerHTML
+
+              expect(actual).to.equal(expected)
+            })
+          }
         })
       })
     })

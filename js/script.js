@@ -7,10 +7,6 @@ FSJS Project 2 - Data Pagination and Filtering
 
 'use strict'
 
-const uiContainers = {
-  students: document.querySelector('ul.student-list')
-}
-
 for (let i = 0; i < 9; i++) {
   const listItemHtml = `<li class="student-item cf">
   <div class="student-details">
@@ -23,5 +19,13 @@ for (let i = 0; i < 9; i++) {
   </div>
 </li>`
 
-  uiContainers.students.insertAdjacentHTML('beforeend', listItemHtml)
+  window.uiContainers.students.insertAdjacentHTML('beforeend', listItemHtml)
+}
+
+const totalPages = Math.ceil(data.length / window.uiOptions.pageSize)
+
+window.uiContainers.pages.insertAdjacentHTML('beforeend', '<li><button class="active">1</button></li>')
+
+for (let i = 1; i < totalPages; i++) {
+  window.uiContainers.pages.insertAdjacentHTML('beforeend', `<li><button>${i + 1}</button></li>`)
 }

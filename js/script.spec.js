@@ -41,37 +41,59 @@ window.defineTestSuite = () => {
 
                 expect(actual).to.equal(expected)
               })
-            })
 
-            it('must have an image', () => {
-              const expected = 1
-              const actual = li.querySelectorAll('img').length
+              it('must have 2 child DIV elements', () => {
+                const expected = ['DIV', 'DIV']
+                const actual = Array.from(li.children).map(elem => elem.tagName)
 
-              expect(actual).to.equal(expected)
-            })
-
-            describe('the image', () => {
-              const img = li.querySelector('img')
-
-              it('must have the correct CSS class', () => {
-                const expected = 'avatar'
-                const actual = img.attributes.class.value
-
-                expect(actual).to.equal(expected)
+                expect(actual).to.have.members(expected)
               })
 
-              it('must have an SRC attribute matching the expected pattern', () => {
-                const pattern = /^https:\/\/randomuser\.me\/api\/portraits\/(men|women)\/\d+\.jpg$/
-                const actual = img.attributes.src.value
+              describe('the first DIV', () => {
+                const div = li.children[0]
 
-                expect(actual).to.match(pattern)
+                it('must have a CLASS attribute with the expected value', () => {
+                  const expected = 'student-details'
+                  const actual = div.attributes.class.value
+
+                  expect(actual).to.equal(expected)
+                })
+
+                it('must have the expected children elements', () => {
+                  const expected = ['IMG', 'H3', 'SPAN']
+                  const actual = Array.from(div.children).map(elem => elem.tagName)
+
+                  expect(actual).to.have.members(expected)
+                })
+
+                describe('the image', () => {
+                  const img = div.querySelector('img')
+
+                  it('must have the correct CSS class', () => {
+                    const expected = 'avatar'
+                    const actual = img.attributes.class.value
+
+                    expect(actual).to.equal(expected)
+                  })
+
+                  it('must have an SRC attribute matching the expected pattern', () => {
+                    const pattern = /^https:\/\/randomuser\.me\/api\/portraits\/(men|women)\/\d+\.jpg$/
+                    const actual = img.attributes.src.value
+
+                    expect(actual).to.match(pattern)
+                  })
+
+                  it('must have an ALT attribute with the expected value', () => {
+                    const expected = 'Profile Picture'
+                    const actual = img.attributes.alt.value
+
+                    expect(actual).to.equal(expected)
+                  })
+                })
               })
 
-              it('must have an ALT attribute with the expected value', () => {
-                const expected = 'Profile Picture'
-                const actual = img.attributes.alt.value
+              describe('the second DIV', () => {
 
-                expect(actual).to.equal(expected)
               })
             })
           })

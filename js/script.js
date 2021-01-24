@@ -1,3 +1,5 @@
+/* global data */
+
 /*
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
@@ -10,5 +12,9 @@ const uiContainers = {
 }
 
 for (let i = 0; i < 9; i++) {
-  uiContainers.students.insertAdjacentHTML('beforeend', `<li>${i}</li>`)
+  const listItemHtml = `<li class="student-item cf">
+  <img class="avatar" src="${data[i].picture.large}" alt="Profile Picture" />
+</li>`
+
+  uiContainers.students.insertAdjacentHTML('beforeend', listItemHtml)
 }

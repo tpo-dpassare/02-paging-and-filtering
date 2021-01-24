@@ -8,9 +8,7 @@
   <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-
   <div class="page">
-
     <header class="header">
       <h2>Students</h2>
       
@@ -66,9 +64,26 @@
 
       </ul>
     </div>
-    
   </div>
+
+  <script src="https://unpkg.com/chai/chai.js"></script>
+  <script src="https://unpkg.com/mocha/mocha.js"></script>
+  <script src="js/WebConsole.js"></script>
+
+  <script class="mocha-init">
+    window.mocha.setup({
+      reporter: window.WebConsole,
+      ui: 'bdd'
+    })
+  </script>
+
   <script src="js/data.js"></script> 
   <script src="js/script.js"></script>
+  <script src="js/script.spec.js"></script>
+
+  <script class="mocha-exec">
+    window.defineTestSuite()
+    window.mocha.run()
+  </script>
 </body>
 </html>

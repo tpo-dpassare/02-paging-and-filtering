@@ -212,6 +212,13 @@ window.defineTestSuite = () => {
       })
 
       describe('the list of students', () => {
+        it('must have the expected number of items', () => {
+          const expected = 9
+          const actual = window.uiContainers.students.children.length
+
+          expect(actual).to.equal(expected)
+        })
+
         it('must have a different set of content than the first page', () => {
           const actual = window.uiContainers.students.innerHTML
           expect(actual).to.not.equal(previousPageContents)
@@ -250,6 +257,73 @@ window.defineTestSuite = () => {
           it('must contain the expected HTML', () => {
             for (let i = 0; i < listItems.length; i++) {
               if (i === 1) continue // ignore the second button
+
+              const pattern = /^<button( class="")?>\d<\/button>$/
+              const actual = listItems[i].innerHTML
+
+              expect(actual).to.match(pattern)
+            }
+          })
+        })
+      })
+    })
+
+    context('when the last page button is clicked', () => {
+      let previousPageContents = null
+
+      before((done) => {
+        previousPageContents = window.uiContainers.students.innerHTML
+        window.uiContainers.pages.children[4].children[0].click()
+
+        window.setTimeout(done, 500)
+      })
+
+      describe('the list of students', () => {
+        it('must have the expected number of items', () => {
+          const expected = 6
+          const actual = window.uiContainers.students.children.length
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must have a different set of content than the second page', () => {
+          const actual = window.uiContainers.students.innerHTML
+          expect(actual).to.not.equal(previousPageContents)
+        })
+      })
+
+      describe('the page list', () => {
+        /**
+         * The collection of DOM elements that are direct descendents of the
+         * "page button list" UL.
+         * @type {HTMLCollection}
+         */
+        let listItems = null
+
+        before(() => {
+          listItems = window.uiContainers.pages.children
+        })
+
+        it('must have the expected number of items', () => {
+          const expected = 5
+          const actual = listItems.length
+
+          expect(actual).to.equal(expected)
+        })
+
+        describe('the last item', () => {
+          it('must contain the expected HTML', () => {
+            const expected = '<button class="active">5</button>'
+            const actual = listItems[4].innerHTML
+
+            expect(actual).to.equal(expected)
+          })
+        })
+
+        describe('all other items', () => {
+          it('must contain the expected HTML', () => {
+            for (let i = 0; i < listItems.length; i++) {
+              if (i === 4) continue // ignore the last button
 
               const pattern = /^<button( class="")?>\d<\/button>$/
               const actual = listItems[i].innerHTML

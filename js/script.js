@@ -43,6 +43,13 @@ function showPageOfStudents (students, pageNumber, pageSize) {
    * add as a child of the parent container.
    */
   for (let i = startIndex; i < endIndex; i++) {
+    /**
+     * Exit if there are no more students left to display.
+     */
+    if (i >= students.length) {
+      break
+    }
+
     const listItemHtml = `<li class="student-item cf">
     <div class="student-details">
       <img class="avatar" src="${students[i].picture.large}" alt="Profile Picture" />

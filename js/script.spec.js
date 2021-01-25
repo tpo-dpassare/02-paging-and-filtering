@@ -188,13 +188,11 @@ window.defineTestSuite = () => {
 
         describe('all other items', () => {
           for (let i = 1; i < listItems.length; i++) {
-            const li = listItems[i]
-
             it('must contain the expected HTML', () => {
-              const expected = `<button>${i + 1}</button>`
-              const actual = li.innerHTML
+              const pattern = /^<button( class="")?>\d<\/button>$/
+              const actual = listItems[i].innerHTML
 
-              expect(actual).to.equal(expected)
+              expect(actual).to.match(pattern)
             })
           }
         })

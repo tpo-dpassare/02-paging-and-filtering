@@ -8,18 +8,19 @@ FSJS Project 2 - Data Pagination and Filtering
 'use strict'
 
 /**
- * Updates the UI to display a "page" of students.
+ * Returns the necessary HTML to display a "page" of student information cards.
  *
- * @param  {Array}    students     The complete list of students to select from.
+ * @param  {Array}    sourceData   The list of students to select from.
  *
  * @param  {Number}   pageNumber   The page to display (1-based).
  *
- * @param  {Number}   pageSize     The total number of students to include on
- *                                 this page.
+ * @param  {Number}   pageSize     The total number of cards to include on this
+ *                                 page.
  *
- * @return {undefined}
+ * @return {Array}    An array of string values, each of which contains the
+ *                    HTML needed to render a single card.
  */
-function showPageOfStudents (students, pageNumber, pageSize) {
+function generateStudentCards (sourceData, pageNumber, pageSize) {
   /**
    * The index of the first student to include on this "page".
    * @type {Number}
@@ -33,51 +34,87 @@ function showPageOfStudents (students, pageNumber, pageSize) {
   const endIndex = pageNumber * pageSize
 
   /**
-   * Clear any students already visible.
+   * The returned value.
+   * @type {Array}
    */
-  window.uiContainers.students.innerHTML = ''
+  const output = []
 
-  /**
-   * STEP 1
-   * For each item to display on this "page", create the necessary HTML and
-   * add as a child of the parent container.
-   */
   for (let i = startIndex; i < endIndex; i++) {
     /**
      * Exit if there are no more students available to display.
      */
-    if (i >= students.length) {
+    if (i >= sourceData.length) {
       break
     }
 
-    const listItemHtml = `<li class="student-item cf">
-    <div class="student-details">
-      <img class="avatar" src="${students[i].picture.large}" alt="Profile Picture" />
-      <h3>${students[i].name.title} ${students[i].name.first} ${students[i].name.last}</h3>
-      <span class="email">${students[i].email}</span>
-    </div>
-    <div class="joined-details">
-      <span class="date">Joined ${students[i].registered.date}</span>
-    </div>
-  </li>`
-
-    window.uiContainers.students.insertAdjacentHTML('beforeend', listItemHtml)
+    /**
+     * The template for each card can be found at
+     * https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
+     * @type {String}
+     */
+    output.push(`<li class="student-item cf">
+      <div class="student-details">
+        <img class="avatar" src="${sourceData[i].picture.large}" alt="Profile Picture" />
+        <h3>${sourceData[i].name.title} ${sourceData[i].name.first} ${sourceData[i].name.last}</h3>
+        <span class="email">${sourceData[i].email}</span>
+      </div>
+      <div class="joined-details">
+        <span class="date">Joined ${sourceData[i].registered.date}</span>
+      </div>
+    </li>`)
   }
 
+  return output
+}
+
+/**
+ * Returns the necessary HTML to display a set of pagination controls.
+ *
+ * @param  {Number}   totalCardCount   The total number of cards available to
+ *                                     be displayed (across all pages).
+ *
+ * @param  {Number}   pageSize         The total number of cards to include on
+ *                                     a single page.
+ *
+ * @return {Array}    An array of string values, each of which contains the
+ *                    HTML needed to render a single card.
+ */
+function generatePaginationControls (totalCardCount, pageSize) {
   /**
-   * STEP 2
-   * Update the pagination controls based on the total number of students.
+   * The returned value.
+   * @type {Array}
    */
-  const totalPageCount = Math.ceil(students.length / pageSize)
+  const output = []
 
   /**
-   * Clear any controls already visible.
+   * The total number of pages necessary to display all the available cards.
+   * @type {Number}
    */
-  window.uiContainers.pages.innerHTML = ''
+  const totalPageCount = Math.ceil(totalCardCount / pageSize)
 
+  /**
+   * The template for each control can be found at
+   * https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
+   * @type {String}
+   */
   for (let i = 1; i <= totalPageCount; i++) {
-    window.uiContainers.pages.insertAdjacentHTML('beforeend', `<li><button${(i === pageNumber ? ' class="active"' : '')}>${i}</button></li>`)
+    output.push(`<li><button>${i}</button></li>`)
   }
+
+  return output
+}
+
+/**
+ *
+ */
+function highlightActivePage (controlList, pageNumber) {
+  controlList.forEach((ctrl) => {
+    if (ctrl.textContent === pageNumber.toString()) {
+      ctrl.className = 'active'
+    } else {
+      ctrl.className = ''
+    }
+  })
 }
 
 window.uiContainers.pages.addEventListener('click', (evt) => {
@@ -91,22 +128,33 @@ window.uiContainers.pages.addEventListener('click', (evt) => {
     }
 
     /**
-     * Remove the current button highlight.
-     */
-    window.uiContainers.pages.querySelector('button.active').className = ''
-
-    /**
      * The next page number to display (as determined by the caption of the
      * button).
      * @type {Number}
      */
     const pageToDisplay = window.parseInt(evt.target.textContent, 10)
 
-    showPageOfStudents(data, pageToDisplay, window.uiOptions.pageSize)
+    /**
+     * Remove any visible cards.
+     */
+    window.uiContainers.students.innerHTML = ''
+
+    /**
+     * Display student cards.
+     */
+    generateStudentCards(data, pageToDisplay, window.uiOptions.pageSize).forEach((card) => {
+      window.uiContainers.students.insertAdjacentHTML('beforeend', card)
+    })
+
+    highlightActivePage(window.uiContainers.pages.querySelectorAll('button'), pageToDisplay)
   }
 })
 
 /**
  * Initialize UI state.
  */
-showPageOfStudents(data, 1, window.uiOptions.pageSize)
+generatePaginationControls(data.length, window.uiOptions.pageSize).forEach((ctrl) => {
+  window.uiContainers.pages.insertAdjacentHTML('beforeend', ctrl)
+})
+
+window.uiContainers.pages.querySelector('button').click()

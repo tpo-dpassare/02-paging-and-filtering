@@ -134,7 +134,7 @@ window.uiContainers.pages.addEventListener('click', (evt) => {
      * If the clicked button is already active, then there is no need to do
      * anything else.
      */
-    if (evt.target.className === 'active') {
+    if (evt.target.className === window.uiOptions.activeButtonClassName) {
       return
     }
 

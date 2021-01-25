@@ -164,10 +164,10 @@ window.defineTestSuite = () => {
         const listItems = window.uiContainers.pages.children
 
         it('must have the expected number of items', () => {
-          const minimum = 5
+          const expected = 5
           const actual = listItems.length
 
-          expect(actual).to.be.at.least(minimum)
+          expect(actual).to.equal(expected)
         })
 
         describe('the first item', () => {
@@ -192,6 +192,50 @@ window.defineTestSuite = () => {
               expect(actual).to.equal(expected)
             })
           }
+        })
+      })
+    })
+
+    context('when the second page button is clicked', () => {
+      describe('the page list', () => {
+        let listItems = null
+
+        before((done) => {
+          window.uiContainers.pages.children[1].children[0].click()
+
+          window.setTimeout(() => {
+            listItems = window.uiContainers.pages.children
+            done()
+          }, 500)
+        })
+
+        it('must have the expected number of items', () => {
+          const expected = 5
+          const actual = listItems.length
+
+          expect(actual).to.equal(expected)
+        })
+
+        describe('the second item', () => {
+          it('must contain the expected HTML', () => {
+            const expected = '<button class="active">2</button>'
+            const actual = listItems[1].innerHTML
+
+            expect(actual).to.equal(expected)
+          })
+        })
+
+        describe('all other items', () => {
+          it('must contain the expected HTML', () => {
+            for (let i = 0; i < listItems.length; i++) {
+              if (i === 1) continue // ignore the second button
+
+              const pattern = /^<button( class="")?>\d<\/button>$/
+              const actual = listItems[i].innerHTML
+
+              expect(actual).to.match(pattern)
+            }
+          })
         })
       })
     })

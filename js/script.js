@@ -105,12 +105,23 @@ function generatePaginationControls (totalCardCount, pageSize) {
 }
 
 /**
+ * Adds or removes the necessary CSS class to indicate which page control is
+ * currently active.
  *
+ * @param  {Array}    controls     The list of UI controls used to select the
+ *                                 current page.
+ *
+ * @param  {Number}   pageNumber   The currently selected page number (1-based).
+ *
+ * @param  {String}   className    The CSS class used to indicate if the control
+ *                                 is active.
+ *
+ * @return {undefined}
  */
-function highlightActivePage (controlList, pageNumber) {
-  controlList.forEach((ctrl) => {
+function highlightActivePage (controls, pageNumber, className) {
+  controls.forEach((ctrl) => {
     if (ctrl.textContent === pageNumber.toString()) {
-      ctrl.className = 'active'
+      ctrl.className = className
     } else {
       ctrl.className = ''
     }
@@ -146,7 +157,11 @@ window.uiContainers.pages.addEventListener('click', (evt) => {
       window.uiContainers.students.insertAdjacentHTML('beforeend', card)
     })
 
-    highlightActivePage(window.uiContainers.pages.querySelectorAll('button'), pageToDisplay)
+    highlightActivePage(
+      window.uiContainers.pages.querySelectorAll('button'),
+      pageToDisplay,
+      window.uiOptions.activeButtonClassName
+    )
   }
 })
 

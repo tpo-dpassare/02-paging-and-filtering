@@ -161,6 +161,11 @@ window.defineTestSuite = () => {
       })
 
       describe('the page list', () => {
+        /**
+         * The collection of DOM elements that are direct descendents of the
+         * "page button list" UL.
+         * @type {HTMLCollection}
+         */
         const listItems = window.uiContainers.pages.children
 
         it('must have the expected number of items', () => {
@@ -197,16 +202,32 @@ window.defineTestSuite = () => {
     })
 
     context('when the second page button is clicked', () => {
+      let previousPageContents = null
+
+      before((done) => {
+        previousPageContents = window.uiContainers.students.innerHTML
+        window.uiContainers.pages.children[1].children[0].click()
+
+        window.setTimeout(done, 500)
+      })
+
+      describe('the list of students', () => {
+        it('must have a different set of content than the first page', () => {
+          const actual = window.uiContainers.students.innerHTML
+          expect(actual).to.not.equal(previousPageContents)
+        })
+      })
+
       describe('the page list', () => {
+        /**
+         * The collection of DOM elements that are direct descendents of the
+         * "page button list" UL.
+         * @type {HTMLCollection}
+         */
         let listItems = null
 
-        before((done) => {
-          window.uiContainers.pages.children[1].children[0].click()
-
-          window.setTimeout(() => {
-            listItems = window.uiContainers.pages.children
-            done()
-          }, 500)
+        before(() => {
+          listItems = window.uiContainers.pages.children
         })
 
         it('must have the expected number of items', () => {

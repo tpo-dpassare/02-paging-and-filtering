@@ -20,7 +20,6 @@ FSJS Project 2 - Data Pagination and Filtering
  * @return {undefined}
  */
 function showPageOfStudents (students, pageNumber, pageSize) {
-  console.log(arguments)
   /**
    * The index of the first student to include on this "page".
    * @type {Number}

@@ -44,7 +44,7 @@ function showPageOfStudents (students, pageNumber, pageSize) {
    */
   for (let i = startIndex; i < endIndex; i++) {
     /**
-     * Exit if there are no more students left to display.
+     * Exit if there are no more students available to display.
      */
     if (i >= students.length) {
       break

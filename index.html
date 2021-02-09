@@ -68,11 +68,11 @@
 
   <script src="https://unpkg.com/chai/chai.js"></script>
   <script src="https://unpkg.com/mocha/mocha.js"></script>
-  <script src="js/WebConsole.js"></script>
 
   <script class="mocha-init">
+    /* eslint-disable eol-last, indent, no-tabs, no-mixed-spaces-and-tabs */
     window.mocha.setup({
-      reporter: window.WebConsole,
+      reporter: 'spec',
       ui: 'bdd'
     })
 
